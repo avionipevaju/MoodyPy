@@ -1,4 +1,5 @@
 from weather import Weather, Unit
+import logging
 
 
 class Forecast:
@@ -7,13 +8,14 @@ class Forecast:
     """
 
     def __init__(self, city, unit=Unit.CELSIUS):
+        logging.info('Configuring weather data for %s in %s', city, unit)
         weather = Weather(unit=unit)
         self.location = weather.lookup_by_location(city)
 
     def current_weather(self):
         condition = self.location.condition
-        return (self.location.description + ', Temperature: ' + condition.temp + 'C' +', ''Time: ' + condition.date
-              + ', Condition: ' + condition.text)
+        return (self.location.description + ', Temperature: ' + condition.temp + 'C' + ', Time: ' + condition.date
+                + ', Condition: ' + condition.text)
 
 
 
