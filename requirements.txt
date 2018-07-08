@@ -3,3 +3,4 @@ requests
 requests_oauthlib
 twitter
 weather-api
+bs4

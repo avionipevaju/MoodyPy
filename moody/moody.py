@@ -7,7 +7,6 @@ class Moody:
     """
     Enables moody_py Twitter functionality by using python-twitter wrapper for Twitter API.
     """
-
     def __init__(self):
         try:
             with open('credentials.json') as json_file:

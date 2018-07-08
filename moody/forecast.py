@@ -6,7 +6,6 @@ class Forecast:
     """
     Provides weather information for a given location by using Yahoo Weather API.
     """
-
     def __init__(self, city, unit=Unit.CELSIUS):
         logging.info('Configuring weather data for %s in %s', city, unit)
         weather = Weather(unit=unit)
