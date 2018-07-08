@@ -17,20 +17,20 @@ class Moody:
                                    access_token_key=data["access_token_key"],
                                    access_token_secret=data["access_token_secret"])
         except IOError as e:
-            logging.error('Couldn\'t load credentials file', e.message)
+            logging.error('Error loading credentials file: %s', e.message)
 
     def verify_credentials(self):
         try:
             self.api.VerifyCredentials()
             logging.info('Successfully verified')
         except twitter.TwitterError as e:
-            logging.error(e.message[0]['message'])
+            logging.error('Error verifying credentials: %s', e.message[0]['message'])
 
     def tweet(self, content, media=None):
         try:
             status = self.api.PostUpdate(content, media=media)
             logging.info('Posted twit with status: %s', status)
         except twitter.TwitterError as e:
-            logging.error('Error posting twit: ' + e.message[0]['message'])
+            logging.error('Error posting twit: %s', e.message[0]['message'])
 
 
