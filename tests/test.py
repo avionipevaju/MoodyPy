@@ -1,16 +1,28 @@
-from moody.moody import Moody
-from moody.forecast import Forecast
-from moody.youtube import YouTube
+from moody_py.moody import Moody
+from moody_py.forecast import Forecast
+from moody_py.youtube import YouTube
+from moody_py.discogs import Discogs
 
 if __name__ == "__main__":
+
     moody = Moody()
-    weather = Forecast('Belgrade')
-
     moody.verify_credentials()
+    weather = Forecast('Belgrade')
+    youtube_search_engine = YouTube()
+    discogs_search_engine = Discogs().search_engine
 
-    video = YouTube()
-    print(video.search_video('Mogwai'))
+    #artist = discogs_search_engine.search('Mogwai', type='artist')[0]
+    #print(artist)
 
-    #moody.tweet(weather.current_weather() + ' https://www.youtube.com/watch?v=z2elJtgY6h8')
+    releases = discogs_search_engine.search('Veronautika', type='release')[0]
+    #for track in releases.tracklist:
+    #    print(track.title)
+
+    track_11 = releases.tracklist[11].title
+    print(track_11)
+
+    moody.tweet(weather.current_weather() + ' ' + youtube_search_engine.search_video(track_11))
+
+
 
 
