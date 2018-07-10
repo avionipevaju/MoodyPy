@@ -9,6 +9,9 @@ class YouTube:
     Enables support for YouTube search
     """
     def __init__(self):
+        """
+        Initializes YouTube search engine
+        """
         self.youtube_url = 'https://www.youtube.com'
         self.youtube_query = 'https://www.youtube.com/results?search_query='
 

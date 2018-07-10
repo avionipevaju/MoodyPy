@@ -9,7 +9,7 @@ class Moody:
     """
     def __init__(self):
         """
-        Initiates python-twitter wrapper with the Twitter API credentials
+        Initializes python-twitter wrapper with the Twitter API credentials
         """
         self.api = twitter.Api(consumer_key=credentials["consumer_key"],
                                consumer_secret=credentials["consumer_secret"],

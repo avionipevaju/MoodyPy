@@ -9,7 +9,7 @@ class Discogs:
     """
     def __init__(self):
         """
-        Initiates Discogs search engine with Discogs API credentials
+        Initializes Discogs search engine with Discogs API credentials
         """
         self.search_engine = discogs_client.Client('moody_py', user_token=credentials["discogs_user_token"])
 
