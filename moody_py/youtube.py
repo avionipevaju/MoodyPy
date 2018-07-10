@@ -13,15 +13,12 @@ class YouTube:
         self.youtube_query = 'https://www.youtube.com/results?search_query='
 
     def search_video(self, search_string, feeling_lucky=True):
-        """ Searches YouTube for a specific video.
-        Args:
-            search_string (str):
-                A string to search YouTube by
-            feeling_lucky (boolean):
-                If set to true it will return the first video from the result set
+        """
+        Searches YouTube for a specific video.
+        :param search_string: A string to search YouTube by
+        :param feeling_lucky: If set to true it will return the first video from the result set
                 Otherwise it will return a random video from the result set
-        Returns (str):
-            A url representing the searched video
+        :return: A url representing the searched video
         """
         query = urllib.quote(search_string)
         url = self.youtube_query + query
