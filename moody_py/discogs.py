@@ -22,6 +22,11 @@ class Discogs:
         artist = self.search_engine.search(artist, type='artist')[0]
         releases_by_artist = artist.releases
         random_release = releases_by_artist[random.randint(0, len(releases_by_artist) - 1)]
-        print(random_release.genres)
         random_track = random_release.tracklist[random.randint(0, len(random_release.tracklist) - 1)]
         return random_track.title
+
+    def get_random_track_by_genre(self, genre):
+        """
+        TODO implement search similar to YouTube search
+        https://www.discogs.com/search?limit=250&sort=want%2Cdesc&style_exact=Post+Rock&type=release
+        """
