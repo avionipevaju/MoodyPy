@@ -1,7 +1,7 @@
 import urllib
 import urllib2
-import random
 from bs4 import BeautifulSoup
+from utils import Utils
 
 
 class YouTube:
@@ -32,6 +32,5 @@ class YouTube:
         if feeling_lucky:
             return self.youtube_url + videos[0]['href']
         else:
-            index = random.randint(0, len(videos)-1)
-            return self.youtube_url + videos[index]['href']
+            return self.youtube_url + Utils.get_random_from_collection(videos, 'href')
 

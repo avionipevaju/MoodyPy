@@ -8,7 +8,7 @@ class Forecast:
     """
     def __init__(self, city, unit=Unit.CELSIUS):
         """
-        Initializes the Forecast object with settings for a given city and temperature unit
+        Initializes the Forecast engine with settings for a given city and temperature unit
         :param city: City of interest
         :param unit: Temperature unit
         """
