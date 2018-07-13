@@ -3,7 +3,7 @@ import urllib2
 from bs4 import BeautifulSoup
 from discogs_client.client import Client
 from moody_py import credentials
-from utils import Utils
+from moody_py import utils
 
 
 class Discogs:
@@ -26,8 +26,8 @@ class Discogs:
         """
         try:
             artist = self.search_engine.search(artist_name, type='artist')[0]
-            random_release = Utils.get_random_from_collection(artist.releases)
-            random_track = Utils.get_random_from_collection(random_release.tracklist)
+            random_release = utils.get_random_from_collection(artist.releases)
+            random_track = utils.get_random_from_collection(random_release.tracklist)
             return artist_name + ' ' + random_track.title
         except Exception as e:
             logging.error(e.message)
@@ -45,9 +45,9 @@ class Discogs:
             html = response.read()
             soup = BeautifulSoup(html, "html.parser")
             albums = soup.findAll(attrs={'class': 'card card_large float_fix shortcut_navigable'})
-            random_album_id = Utils.get_random_from_collection(albums, 'data-object-id')
+            random_album_id = utils.get_random_from_collection(albums, 'data-object-id')
             album = self.search_engine.release(random_album_id)
-            return album.artists[0].name + ' ' + Utils.get_random_from_collection(album.tracklist).title
+            return album.artists[0].name + ' ' + utils.get_random_from_collection(album.tracklist).title
         except Exception as e:
             logging.error(e.message)
             return None

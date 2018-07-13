@@ -2,7 +2,7 @@ import logging
 import urllib
 import urllib2
 from bs4 import BeautifulSoup
-from utils import Utils
+from moody_py import utils
 
 
 class YouTube:
@@ -34,7 +34,7 @@ class YouTube:
             if feeling_lucky:
                 return self.youtube_url + videos[0]['href']
             else:
-                return self.youtube_url + Utils.get_random_from_collection(videos, 'href')
+                return self.youtube_url + utils.get_random_from_collection(videos, 'href')
         except Exception as e:
             logging.error(e.message)
             return None

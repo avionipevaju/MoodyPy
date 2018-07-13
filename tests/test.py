@@ -1,7 +1,7 @@
-from moody_py.moody import Moody
-from moody_py.forecast import Forecast
-from moody_py.youtube import YouTube
-from moody_py.discogs import Discogs
+from moody_py.engine.moody import Moody
+from moody_py.forecast.forecast import Forecast
+from moody_py.youtube.youtube import YouTube
+from moody_py.discogs.discogs import Discogs
 
 if __name__ == "__main__":
 
