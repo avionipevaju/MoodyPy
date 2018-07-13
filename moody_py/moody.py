@@ -1,4 +1,4 @@
-import twitter
+from twitter import (Api, TwitterError)
 import logging
 from moody_py import credentials
 
@@ -11,21 +11,23 @@ class Moody:
         """
         Initializes python-twitter wrapper with the Twitter API credentials
         """
-        self.api = twitter.Api(consumer_key=credentials["consumer_key"],
-                               consumer_secret=credentials["consumer_secret"],
-                               access_token_key=credentials["access_token_key"],
-                               access_token_secret=credentials["access_token_secret"])
+        self.api = Api(consumer_key=credentials["consumer_key"],
+                       consumer_secret=credentials["consumer_secret"],
+                       access_token_key=credentials["access_token_key"],
+                       access_token_secret=credentials["access_token_secret"])
 
     def verify_credentials(self):
         """
         Verifies if the given tokens are valid
-        :return: None
+        :return: A boolean value stating if the credentials are valid
         """
         try:
             self.api.VerifyCredentials()
             logging.info('Successfully verified')
-        except twitter.TwitterError as e:
+            return True
+        except TwitterError as e:
             logging.error('Error verifying credentials: %s', e.message[0]['message'])
+            return False
 
     def tweet(self, content):
         """
@@ -36,5 +38,5 @@ class Moody:
         try:
             status = self.api.PostUpdate(content)
             logging.info('Posted twit with status: %s', status)
-        except twitter.TwitterError as e:
+        except TwitterError as e:
             logging.error('Error posting twit: %s', e.message[0]['message'])
