@@ -5,3 +5,4 @@ twitter
 weather-api
 bs4
 discogs_client
+redis
