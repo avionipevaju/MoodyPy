@@ -16,7 +16,7 @@ class Discogs:
         Initializes Discogs search engine with Discogs API credentials
         """
         self.search_engine = Client('moody_py', user_token=credentials["discogs_user_token"])
-        self.discogs_query = 'https://www.discogs.com/search?limit=250&sort=want%2Cdesc&style_exact={}&type=release'
+        self.discogs_query = 'https://www.discogs.com/search?limit=250&sort=want%2Cdesc&style_exact={}&page={}'
 
     def get_random_track_by_artist(self, artist_name):
         """
@@ -33,14 +33,16 @@ class Discogs:
             logging.error(e.message)
             return None
 
-    def get_random_track_by_genre(self, genre):
+    def get_random_track_by_genre(self, genre, relevancy=1):
         """
         Returns a random track with the given genre
         :param genre: Genre to search by
+        :param relevancy: Indicates the wanted level of relevancy or popularity of the album
+        containing the search track
         :return: Random track of a given genre, None if a genre isn't valid
         """
         try:
-            url = self.discogs_query.format(genre)
+            url = self.discogs_query.format(genre, relevancy)
             response = urllib2.urlopen(url)
             html = response.read()
             soup = BeautifulSoup(html, "html.parser")
