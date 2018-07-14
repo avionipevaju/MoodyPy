@@ -15,5 +15,6 @@ def get_random_from_collection(collection, item_key=None):
             return collection[index]
         else:
             return collection[index][item_key]
-    except TypeError as e:
+    except Exception as e:
         logging.error(e.message)
+        return None
