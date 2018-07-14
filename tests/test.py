@@ -13,16 +13,19 @@ if __name__ == "__main__":
     discogs = Discogs()
     redis_engine = Redis()
 
-    artist = 'Chic'
+    artist = 'Chroma Key'
     track = discogs.get_random_track_by_artist(artist)
     print(track)
 
-    track_by_genre = discogs.get_random_track_by_genre('Post Rock')
+    track_by_genre = discogs.get_random_track_by_genre('Post+Rock')
     print(track_by_genre)
 
     print(redis_engine.get_string('app:name'))
 
-    moody.tweet(weather.current_weather() + ' ' + youtube_search_engine.search_video(track_by_genre))
+    weather_data = weather.current_weather()
+
+    moody.tweet(weather_data.location + ' ' + weather_data.condition + ' ' +
+                youtube_search_engine.search_video(track_by_genre))
 
 
 

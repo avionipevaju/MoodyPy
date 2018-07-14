@@ -1,5 +1,6 @@
-from weather import Weather, Unit
 import logging
+from weather import Weather, Unit
+from moody_py.models.models import WeatherData
 
 
 class Forecast:
@@ -13,14 +14,12 @@ class Forecast:
         :param unit: Temperature unit
         """
         logging.info('Configuring weather data for %s in %s', city, unit)
-        weather = Weather(unit=unit)
-        self.location = weather.lookup_by_location(city)
+        self.weather = Weather(unit=unit)
+        self.city = city
 
     def current_weather(self):
         """
         Gets the current weather for a city
-        :return: Current weather
+        :return: Weather Data representing the current weather of a city
         """
-        condition = self.location.condition
-        return (self.location.description + ', Temperature: ' + condition.temp + 'C' + ', Time: ' + condition.date
-                + ', Condition: ' + condition.text)
+        return WeatherData(self.weather.lookup_by_location(self.city))
