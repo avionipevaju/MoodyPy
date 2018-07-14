@@ -18,3 +18,12 @@ def get_random_from_collection(collection, item_key=None):
     except Exception as e:
         logging.error(e.message)
         return None
+
+
+def resolve_location(yahoo_description):
+    """
+    Extracts the location from Yahoo weather description
+    :param yahoo_description: Yahoo weather description
+    :return: Location name
+    """
+    return yahoo_description.split(" ")[4][:-1]
