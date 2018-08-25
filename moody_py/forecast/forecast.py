@@ -9,6 +9,7 @@ class Forecast:
     """
     Provides weather information for a given location by using Yahoo Weather API.
     """
+
     def __init__(self, city, unit=Unit.CELSIUS):
         """
         Initializes the Forecast engine with settings for a given city and temperature unit

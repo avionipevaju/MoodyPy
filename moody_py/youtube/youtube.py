@@ -11,12 +11,14 @@ class YouTube:
     """
     Enables support for YouTube search
     """
+
+    YOUTUBE_URL = 'https://www.youtube.com'
+    YOUTUBE_QUERY = YOUTUBE_URL + '/results?search_query='
+
     def __init__(self):
         """
         Initializes YouTube search engine
         """
-        self.youtube_url = 'https://www.youtube.com'
-        self.youtube_query = 'https://www.youtube.com/results?search_query='
 
     def search_video(self, search_string, feeling_lucky=True):
         """
@@ -28,15 +30,17 @@ class YouTube:
         """
         try:
             query = urllib.quote(search_string)
-            url = self.youtube_query + query
+            url = self.YOUTUBE_QUERY + query
             response = urllib2.urlopen(url)
             html = response.read()
             soup = BeautifulSoup(html, "html.parser")
             videos = soup.findAll(attrs={'class': 'yt-uix-tile-link'})
             if feeling_lucky:
-                return self.youtube_url + videos[0]['href']
+                target_url = self.YOUTUBE_URL + videos[0]['href']
             else:
-                return self.youtube_url + utils.get_random_from_collection(videos, 'href')
+                target_url = self.YOUTUBE_URL + utils.get_random_from_collection(videos, 'href')
+            logging.info('YouTube search url: %s', target_url)
+            return target_url
         except Exception as e:
             logging.error(e.message)
             return None

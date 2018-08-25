@@ -13,12 +13,13 @@ class Discogs:
     Enables querying of the Discogs database - The largest music database and marketplace in the world
     """
 
+    DISCOGS_QUERY = 'https://www.discogs.com/search?limit=250&sort=want%2Cdesc&style_exact={}&page={}'
+
     def __init__(self):
         """
         Initializes Discogs search engine with Discogs API credentials
         """
         self.search_engine = Client('moody_py', user_token=credentials["discogs_user_token"])
-        self.discogs_query = 'https://www.discogs.com/search?limit=250&sort=want%2Cdesc&style_exact={}&page={}'
 
     def get_random_track_by_artist(self, artist_name):
         """
@@ -44,7 +45,7 @@ class Discogs:
         :return: Random track of a given genre, None if a genre isn't valid
         """
         try:
-            url = self.discogs_query.format(genre, relevancy)
+            url = self.DISCOGS_QUERY.format(genre, relevancy)
             response = urllib2.urlopen(url)
             html = response.read()
             soup = BeautifulSoup(html, "html.parser")

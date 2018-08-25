@@ -17,10 +17,12 @@ class Core:
     a specific genre. YouTube search. Content posting to moody_py twitter account. Task scheduling.
     """
 
+    LOCATION = 'Belgrade'
+
     def __init__(self):
         self.moody = Moody()
         self.moody.verify_credentials()
-        self.weather = Forecast('Belgrade')
+        self.weather = Forecast(self.LOCATION)
         self.youtube_search_engine = YouTube()
         self.discogs = Discogs()
         self.redis_engine = Redis()
@@ -44,7 +46,7 @@ class Core:
         :param weather_data: WeatherData object representing the current weather
         :return: String represented genre
         """
-        genre_list = self.redis_engine.get_list('yahoo:weather:code:' + weather_data.condition_code)
+        genre_list = self.redis_engine.get_list(weather_data.condition_code)
         if genre_list is None:
             logging.error('No genres for code: %s', weather_data.condition_code)
             raise Exception('Genre list is None')
@@ -66,4 +68,4 @@ class Core:
 if __name__ == "__main__":
     core = Core()
     core.schedule()
-    #core.execute_task()
+    # core.execute_task()

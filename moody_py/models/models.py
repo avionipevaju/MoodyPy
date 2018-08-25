@@ -5,6 +5,7 @@ class WeatherData:
     """
     Value object containing relevant weather data
     """
+
     _to_string = 'Location: {}, Condition: {}, Condition Code: {}, Temperature: {}, Date: {}'
 
     def __init__(self, weather_object):
