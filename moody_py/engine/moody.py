@@ -9,6 +9,7 @@ class Moody:
     """
      Enables moody_py Twitter functionality by using python-twitter wrapper for Twitter API.
     """
+
     def __init__(self):
         """
         Initializes python-twitter wrapper with the Twitter API credentials
