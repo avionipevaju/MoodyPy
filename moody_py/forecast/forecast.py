@@ -1,5 +1,7 @@
 import logging
+
 from weather import Weather, Unit
+
 from moody_py.models.models import WeatherData
 
 

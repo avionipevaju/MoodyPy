@@ -1,7 +1,9 @@
 import logging
 import urllib2
+
 from bs4 import BeautifulSoup
 from discogs_client.client import Client
+
 from moody_py import credentials
 from moody_py import utils
 

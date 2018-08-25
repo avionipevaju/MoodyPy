@@ -1,10 +1,12 @@
+import time
+
+import schedule
+
+from moody_py.discogs.discogs import Discogs
 from moody_py.engine.moody import Moody
 from moody_py.forecast.forecast import Forecast
-from moody_py.youtube.youtube import YouTube
-from moody_py.discogs.discogs import Discogs
 from moody_py.storage.storage import Redis
-import schedule
-import time
+from moody_py.youtube.youtube import YouTube
 
 
 class Core:
@@ -42,5 +44,3 @@ class Core:
 if __name__ == "__main__":
     core = Core()
     core.schedule()
-
-

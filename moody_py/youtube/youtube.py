@@ -1,7 +1,9 @@
 import logging
 import urllib
 import urllib2
+
 from bs4 import BeautifulSoup
+
 from moody_py import utils
 
 

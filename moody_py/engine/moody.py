@@ -1,5 +1,7 @@
-from twitter import (Api, TwitterError)
 import logging
+
+from twitter import (Api, TwitterError)
+
 from moody_py import credentials
 
 

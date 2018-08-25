@@ -1,5 +1,5 @@
-import random
 import logging
+import random
 
 
 def get_random_from_collection(collection, item_key=None):
