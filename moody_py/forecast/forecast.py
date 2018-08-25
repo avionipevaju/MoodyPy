@@ -24,4 +24,6 @@ class Forecast:
         Gets the current weather for a city
         :return: Weather Data representing the current weather of a city
         """
-        return WeatherData(self.weather.lookup_by_location(self.city))
+        weather_data = WeatherData(self.weather.lookup_by_location(self.city))
+        logging.info('Retrieved current weather for %s %s', self.city, weather_data)
+        return weather_data

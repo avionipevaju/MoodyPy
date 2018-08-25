@@ -51,7 +51,8 @@ class Discogs:
             albums = soup.findAll(attrs={'class': 'card card_large float_fix shortcut_navigable'})
             random_album_id = utils.get_random_from_collection(albums, 'data-object-id')
             album = self.search_engine.release(random_album_id)
-            return album.artists[0].name + ' ' + utils.get_random_from_collection(album.tracklist).title
+            track = album.artists[0].name + ' ' + utils.get_random_from_collection(album.tracklist).title
+            logging.info('Resolved track: %s for genre: %s with relevancy: %s', track, genre, relevancy)
+            return track
         except Exception as e:
-            logging.error(e.message)
-            return None
+            logging.error('Error resolving track by genre %s', e.message)
