@@ -60,11 +60,11 @@ class TimeOfDay:
         pass
 
 
-class Content:
+class PostContent:
+    """
+    Data transfer object representing relevant post content
     """
 
-    """
-
-    def __init__(self, genre, content):
+    def __init__(self, genre, text):
         self.genre = genre
-        self.content = content
+        self.text = text
