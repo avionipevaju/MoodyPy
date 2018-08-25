@@ -3,7 +3,7 @@ from moody_py import utils
 
 class WeatherData:
     """
-    Value object containing relevant weather data
+    Data transfer object containing relevant weather data
     """
 
     _to_string = 'Location: {}, Condition: {}, Condition Code: {}, Temperature: {}, Date: {}'
