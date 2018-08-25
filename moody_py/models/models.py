@@ -32,7 +32,6 @@ class WeatherData:
 
     def get_time_of_day(self):
         hour = self.time.hour
-        print(hour)
         if 6 < hour < 11:
             return TimeOfDay.MORNING
         if 11 < hour < 17:
@@ -59,3 +58,13 @@ class TimeOfDay:
 
     def __init__(self):
         pass
+
+
+class Content:
+    """
+
+    """
+
+    def __init__(self, genre, content):
+        self.genre = genre
+        self.content = content

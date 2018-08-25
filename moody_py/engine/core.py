@@ -9,6 +9,7 @@ from moody_py.engine.moody import Moody
 from moody_py.forecast.forecast import Forecast
 from moody_py.storage.storage import Redis
 from moody_py.youtube.youtube import YouTube
+from moody_py.models.models import Content
 
 
 class Core:
@@ -35,24 +36,23 @@ class Core:
         :return:
         """
         weather_data = self.weather.current_weather()
-        #genre = self.resolve_genre_by_weather_data(weather_data)
-        #track_by_genre = self.discogs.get_random_track_by_genre(genre)
-        #youtube_url = self.youtube_search_engine.search_video(track_by_genre)
-        #self.moody.tweet("{} {} {}".format(weather_data.location, weather_data.condition, youtube_url))
+        content = self.resolve_content_by_weather_data(weather_data)
+        track_by_genre = self.discogs.get_random_track_by_genre(content.genre)
+        youtube_url = self.youtube_search_engine.search_video(track_by_genre)
+        self.moody.tweet("{} {}".format(content.content, youtube_url))
 
-    def resolve_genre_by_weather_data(self, weather_data):
+    def resolve_content_by_weather_data(self, weather_data):
         """
         Returns a genre for a given weather_data
         :param weather_data: WeatherData object representing the current weather
         :return: String represented genre
         """
-        genre_list = self.redis_engine.get_list(weather_data.condition_code)
-        if genre_list is None:
-            logging.error('No genres for code: %s', weather_data.condition_code)
-            raise Exception('Genre list is None')
+        genre_list = self.redis_engine.get_genre_list(weather_data)
         genre = utils.get_random_from_collection(genre_list)
+        content_list = self.redis_engine.get_time_of_day_content_list(weather_data)
+        content = utils.get_random_from_collection(content_list)
         logging.info('Resolved genre: %s for weather data: %s', genre, weather_data)
-        return genre
+        return Content(genre, content)
 
     def schedule(self):
         """
