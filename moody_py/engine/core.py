@@ -35,10 +35,10 @@ class Core:
         :return:
         """
         weather_data = self.weather.current_weather()
-        genre = self.resolve_genre_by_weather_data(weather_data)
-        track_by_genre = self.discogs.get_random_track_by_genre(genre)
-        youtube_url = self.youtube_search_engine.search_video(track_by_genre)
-        self.moody.tweet("{} {} {}".format(weather_data.location, weather_data.condition, youtube_url))
+        #genre = self.resolve_genre_by_weather_data(weather_data)
+        #track_by_genre = self.discogs.get_random_track_by_genre(genre)
+        #youtube_url = self.youtube_search_engine.search_video(track_by_genre)
+        #self.moody.tweet("{} {} {}".format(weather_data.location, weather_data.condition, youtube_url))
 
     def resolve_genre_by_weather_data(self, weather_data):
         """
@@ -67,5 +67,5 @@ class Core:
 
 if __name__ == "__main__":
     core = Core()
-    core.schedule()
-    # core.execute_task()
+    #core.schedule()
+    core.execute_task()
