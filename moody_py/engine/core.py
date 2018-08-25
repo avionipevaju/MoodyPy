@@ -38,7 +38,7 @@ class Core:
         genre = self.resolve_genre_by_weather_data(weather_data)
         track_by_genre = self.discogs.get_random_track_by_genre(genre)
         youtube_url = self.youtube_search_engine.search_video(track_by_genre)
-        self.moody.tweet(weather_data.location + ' ' + weather_data.condition + ' ' + youtube_url)
+        self.moody.tweet("{} {} {}".format(weather_data.location, weather_data.condition, youtube_url))
 
     def resolve_genre_by_weather_data(self, weather_data):
         """
