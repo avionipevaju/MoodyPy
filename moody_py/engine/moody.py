@@ -38,7 +38,8 @@ class Moody:
         :param twitter_post: TwitterPost object containing relevant twit information
         :return: None
         """
-        twit_content = "{} {}".format(twitter_post.post_text, twitter_post.youtube_url)
+        twit_content = "{}, {} {} C {}".format(twitter_post.post_text, twitter_post.condition, twitter_post.temperature,
+                                               twitter_post.youtube_url)
         if twitter_post.post_text is None or twitter_post.youtube_url is None:
             return
         try:

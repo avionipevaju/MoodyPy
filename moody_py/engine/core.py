@@ -55,7 +55,7 @@ class Core:
         post_text_list = self.redis_engine.get_time_of_day_content_list(weather_data)
         post_text = utils.get_random_from_collection(post_text_list)
         logging.info('Resolved post_text: %s for weather data: %s', post_text, weather_data)
-        return TwitterPost(post_text, youtube_url)
+        return TwitterPost(post_text, youtube_url, weather_data.condition, weather_data.temperature)
 
     def schedule(self):
         """

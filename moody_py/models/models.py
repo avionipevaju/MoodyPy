@@ -65,6 +65,8 @@ class TwitterPost:
     Data transfer object representing a twitter post
     """
 
-    def __init__(self, post_text, youtube_url ):
+    def __init__(self, post_text, youtube_url, condition, temperature):
         self.post_text = post_text
         self.youtube_url = youtube_url
+        self.condition = condition
+        self.temperature = temperature
