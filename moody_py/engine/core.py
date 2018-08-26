@@ -9,7 +9,7 @@ from moody_py.engine.moody import Moody
 from moody_py.forecast.forecast import Forecast
 from moody_py.storage.storage import Redis
 from moody_py.youtube.youtube import YouTube
-from moody_py.models.models import PostContent
+from moody_py.models.models import TwitterPost
 
 
 class Core:
@@ -36,23 +36,28 @@ class Core:
         :return:
         """
         weather_data = self.weather.current_weather()
-        post_content = self.resolve_post_content_by_weather_data(weather_data)
-        track_by_genre = self.discogs.get_random_track_by_genre(post_content.genre)
-        youtube_url = self.youtube_search_engine.search_video(track_by_genre)
-        self.moody.tweet("{} {}".format(post_content.text, youtube_url))
+        twitter_post = self.resolve_twitter_post_by_weather_data(weather_data)
+        self.moody.tweet(twitter_post)
 
-    def resolve_post_content_by_weather_data(self, weather_data):
+    def resolve_twitter_post_by_weather_data(self, weather_data):
         """
-        Returns a genre for a given weather_data
+        Returns a Twitter post content for a given weather_data. First resolves a genre, then finds a random track of
+        a given genre and then searches YouTube returning the search result url. Afterwards finds a corresponding twit
+        text based on the weather data
         :param weather_data: WeatherData object representing the current weather
-        :return: String represented genre
+        :return: TwitterPost to post
         """
         genre_list = self.redis_engine.get_genre_list(weather_data)
         genre = utils.get_random_from_collection(genre_list)
-        text_list = self.redis_engine.get_time_of_day_content_list(weather_data)
-        text = utils.get_random_from_collection(text_list)
         logging.info('Resolved genre: %s for weather data: %s', genre, weather_data)
-        return PostContent(genre, text)
+
+        track_by_genre = self.discogs.get_random_track_by_genre(genre)
+        youtube_url = self.youtube_search_engine.search_video(track_by_genre)
+
+        post_text_list = self.redis_engine.get_time_of_day_content_list(weather_data)
+        post_text = utils.get_random_from_collection(post_text_list)
+        logging.info('Resolved post_text: %s for weather data: %s', post_text, weather_data)
+        return TwitterPost(post_text, youtube_url)
 
     def schedule(self):
         """

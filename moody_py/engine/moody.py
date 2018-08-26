@@ -32,14 +32,15 @@ class Moody:
             logging.error('Error verifying credentials: %s', e.message[0]['message'])
             return False
 
-    def tweet(self, content):
+    def tweet(self, twitter_post):
         """
         Posts a twit on the moody_py account
-        :param content: Content of the twit to post
+        :param twitter_post: TwitterPost object containing relevant twit information
         :return: None
         """
+        twit_content = "{} {}".format(twitter_post.post_text, twitter_post.youtube_url)
         try:
-            status = self.api.PostUpdate(content)
+            status = self.api.PostUpdate(twit_content)
             logging.info('Posted twit with status: %s', status)
         except TwitterError as e:
             logging.error('Error posting twit: %s', e.message[0]['message'])
