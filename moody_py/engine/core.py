@@ -7,9 +7,9 @@ import moody_py.utils as utils
 from moody_py.discogs.discogs import Discogs
 from moody_py.engine.moody import Moody
 from moody_py.forecast.forecast import Forecast
+from moody_py.models.models import TwitterPost
 from moody_py.storage.storage import Redis
 from moody_py.youtube.youtube import YouTube
-from moody_py.models.models import TwitterPost
 
 
 class Core:
@@ -30,9 +30,7 @@ class Core:
 
     def execute_task(self):
         """
-        Atomic task which collects the current weather data, resolves the genre, artist and song accordingly and
-        then performs a YouTube search with the resolved data. YouTube search result is posted to moody_py
-        twitter account
+        Atomic task which creates a twitter post and posts it to moody_py twitter account
         :return:
         """
         weather_data = self.weather.current_weather()
@@ -42,7 +40,7 @@ class Core:
     def resolve_twitter_post_by_weather_data(self, weather_data):
         """
         Returns a Twitter post content for a given weather_data. First resolves a genre, then finds a random track of
-        a given genre and then searches YouTube returning the search result url. Afterwards finds a corresponding twit
+        a given genre and then searches YouTube for the corresponding video. Afterwards finds a corresponding twit
         text based on the weather data
         :param weather_data: WeatherData object representing the current weather
         :return: TwitterPost to post
@@ -72,5 +70,5 @@ class Core:
 
 if __name__ == "__main__":
     core = Core()
-    #core.schedule()
+    # core.schedule()
     core.execute_task()
