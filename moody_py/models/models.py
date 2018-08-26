@@ -32,13 +32,13 @@ class WeatherData:
 
     def get_time_of_day(self):
         hour = self.time.hour
-        if 6 < hour < 11:
+        if 6 <= hour < 11:
             return TimeOfDay.MORNING
-        if 11 < hour < 17:
+        if 11 <= hour < 17:
             return TimeOfDay.DAY
-        if 17 < hour < 20:
+        if 17 <= hour < 20:
             return TimeOfDay.EVENING
-        if 20 < hour < 24 or 0 < hour < 6:
+        if 20 <= hour < 24 or 0 < hour < 6:
             return TimeOfDay.NIGHT
 
     def __str__(self):
