@@ -39,6 +39,8 @@ class Moody:
         :return: None
         """
         twit_content = "{} {}".format(twitter_post.post_text, twitter_post.youtube_url)
+        if twitter_post.post_text is None or twitter_post.youtube_url is None:
+            return
         try:
             status = self.api.PostUpdate(twit_content)
             logging.info('Posted twit with status: %s', status)
