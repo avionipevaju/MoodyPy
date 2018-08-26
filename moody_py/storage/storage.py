@@ -36,17 +36,17 @@ class Redis:
 
     def get_genre_list(self, weather_data):
         """
-
-        :param weather_data:
-        :return:
+        Get a full list of genres based on the weather data
+        :param weather_data: WeatherData object representing the current weather
+        :return:list of genres corresponding to the weather data
         """
         return self.get_list(self._assemble_search_key(self.YAHOO_WEATHER_CODE, weather_data.condition_code))
 
     def get_time_of_day_content_list(self, weather_data):
         """
-
-        :param weather_data:
-        :return:
+        Get a full list of content based on the weather data time of day
+        :param weather_data: WeatherData object representing the current weather
+        :return:list of content corresponding to the weather data time of day
         """
         return self.get_list(self._assemble_search_key(self.TIME_OF_DAY_CONTENT, weather_data.time_of_day))
 
