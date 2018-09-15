@@ -36,14 +36,16 @@ class Moody:
         """
         Posts a twit on the moody_py account
         :param twitter_post: TwitterPost object containing relevant twit information
-        :return: None
+        :return: status: Status of the posted twit
         """
         twit_content = "{}, {} {} C {}".format(twitter_post.post_text, twitter_post.condition, twitter_post.temperature,
                                                twitter_post.youtube_url)
         if twitter_post.post_text is None or twitter_post.youtube_url is None:
-            return
+            return None
         try:
             status = self.api.PostUpdate(twit_content)
             logging.info('Posted twit with status: %s', status)
+            return status
         except TwitterError as e:
             logging.error('Error posting twit: %s', e.message[0]['message'])
+            return None

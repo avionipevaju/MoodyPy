@@ -6,4 +6,4 @@ weather-api
 bs4
 discogs_client
 redis
-schedule
+flask
