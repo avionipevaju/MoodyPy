@@ -60,6 +60,18 @@ class TimeOfDay:
         pass
 
 
+class Instruction:
+    """
+    Value object representing instruction that the engine should perform
+    """
+
+    RESOLVE_WEATHER_DATA = "RWD"
+    RESOLVE_ARTIST = "RA"
+
+    def __init__(self):
+        pass
+
+
 class TwitterPost:
     """
     Data transfer object representing a twitter post
@@ -70,3 +82,25 @@ class TwitterPost:
         self.youtube_url = youtube_url
         self.condition = condition
         self.temperature = temperature
+
+
+class TwitterResponse:
+    """
+    Data transfer object representing a twitter response
+    """
+
+    def __init__(self, twitter_status=None, description=None):
+        """
+        TwitterResponse assembler
+        :param twitter_status: twitter.Status object
+        """
+        if twitter_status is None:
+            self.status = -1
+            self.description = description
+        else:
+            self.status = 0
+            self.description = 'Successfully posted tweet'
+            self.post_id = twitter_status.id
+            self.timestamp = twitter_status.created_at
+            self.content = twitter_status.text
+

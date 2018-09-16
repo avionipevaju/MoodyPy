@@ -4,9 +4,10 @@ import moody_py.utils as utils
 from moody_py.discogs.discogs import Discogs
 from moody_py.engine.moody import Moody
 from moody_py.forecast.forecast import Forecast
-from moody_py.models.models import TwitterPost
+from moody_py.models.models import TwitterPost, TwitterResponse
 from moody_py.storage.storage import Redis
 from moody_py.youtube.youtube import YouTube
+from moody_py.models.models import Instruction
 
 
 class Engine:
@@ -25,24 +26,28 @@ class Engine:
         self.discogs = Discogs()
         self.redis_engine = Redis()
 
-    def execute_task(self):
+    def execute_task(self, instruction=Instruction.RESOLVE_WEATHER_DATA, content=None):
         """
-        Atomic task which creates a twitter post and posts it to moody_py twitter account
-        :return: twitter_status: Status of the posted twit. None if posting was unsuccessful
+        Creates a twitter post and posts it to moody_py twitter account
+        :return: TwitterResponse: models.TwitterResponse. Status of the posted twit.
+        """
+        if instruction is Instruction.RESOLVE_WEATHER_DATA:
+            return self.post_to_twitter_based_on_weather_data()
+
+        if instruction is Instruction.RESOLVE_ARTIST:
+            return self.post_to_twitter_based_on_artist(content)
+
+        return TwitterResponse(twitter_status=-3, description="Instruction invalid!")
+
+    def post_to_twitter_based_on_weather_data(self):
+        """
+        Posts content to Twitter based on the current weather.
+        First gets the current weather and resolves a genre based on it.
+        Then finds a random track of a given genre following by a YouTube search for the corresponding video.
+        Afterwards finds a corresponding twit text based on the weather data
+        :return: twitter_status: models.TwitterResponse object containing relevant tweet response data
         """
         weather_data = self.weather.current_weather()
-        twitter_post = self.resolve_twitter_post_by_weather_data(weather_data)
-        twitter_status = self.moody.tweet(twitter_post)
-        return twitter_status
-
-    def resolve_twitter_post_by_weather_data(self, weather_data):
-        """
-        Returns a Twitter post content for a given weather_data. First resolves a genre, then finds a random track of
-        a given genre and then searches YouTube for the corresponding video. Afterwards finds a corresponding twit
-        text based on the weather data
-        :param weather_data: WeatherData object representing the current weather
-        :return: TwitterPost to post
-        """
         genre_list = self.redis_engine.get_genre_list(weather_data)
         genre = utils.get_random_from_collection(genre_list)
         logging.info('Resolved genre: %s for weather data: %s', genre, weather_data)
@@ -53,4 +58,14 @@ class Engine:
         post_text_list = self.redis_engine.get_time_of_day_content_list(weather_data)
         post_text = utils.get_random_from_collection(post_text_list)
         logging.info('Resolved post_text: %s for weather data: %s', post_text, weather_data)
-        return TwitterPost(post_text, youtube_url, weather_data.condition, weather_data.temperature)
+        twitter_post = TwitterPost(post_text, youtube_url, weather_data.condition, weather_data.temperature)
+        twitter_response = self.moody.tweet(twitter_post)
+        return twitter_response
+
+    def post_to_twitter_based_on_artist(self, artist):
+        """
+
+        :param artist:
+        :return:
+        """
+        return None

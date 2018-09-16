@@ -3,6 +3,7 @@ import logging
 from twitter import (Api, TwitterError)
 
 from moody_py import credentials
+from moody_py.models.models import TwitterResponse
 
 
 class Moody:
@@ -36,16 +37,17 @@ class Moody:
         """
         Posts a twit on the moody_py account
         :param twitter_post: TwitterPost object containing relevant twit information
-        :return: status: Status of the posted twit
+        :return: TwitterResponse: Twitter response object.
         """
         twit_content = "{}, {} {} C {}".format(twitter_post.post_text, twitter_post.condition, twitter_post.temperature,
                                                twitter_post.youtube_url)
+
         if twitter_post.post_text is None or twitter_post.youtube_url is None:
-            return None
+            return TwitterResponse(description='Twitter post text or youtube_url not resolved!')
         try:
             status = self.api.PostUpdate(twit_content)
             logging.info('Posted twit with status: %s', status)
-            return status
+            return TwitterResponse(status)
         except TwitterError as e:
             logging.error('Error posting twit: %s', e.message[0]['message'])
-            return None
+            return TwitterResponse(description='Fatal error while posting tweet')
