@@ -89,6 +89,8 @@ class TwitterResponse:
     Data transfer object representing a twitter response
     """
 
+    _to_string = 'Status {}, Description {}, Post_Id {}, Timestamp {}, Content {}'
+
     def __init__(self, twitter_status=None, description=None):
         """
         TwitterResponse assembler
@@ -103,4 +105,7 @@ class TwitterResponse:
             self.post_id = twitter_status.id
             self.timestamp = twitter_status.created_at
             self.content = twitter_status.text
+
+    def __str__(self):
+        return self._to_string.format(self.status, self.description, self.post_id, self.timestamp, self.content)
 
