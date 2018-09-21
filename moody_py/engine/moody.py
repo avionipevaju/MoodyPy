@@ -4,6 +4,7 @@ from twitter import (Api, TwitterError)
 
 from moody_py import credentials
 from moody_py.models.models import TwitterResponse
+from moody_py.models.models import Instruction
 
 
 class Moody:
@@ -33,14 +34,22 @@ class Moody:
             logging.error('Error verifying credentials: %s', e.message[0]['message'])
             return False
 
-    def tweet(self, twitter_post):
+    def tweet(self, twitter_post, instruction):
         """
         Posts a twit on the moody_py account
         :param twitter_post: TwitterPost object containing relevant twit information
+        :param instruction: models.Instruction what kind of tweet to post
         :return: TwitterResponse: Twitter response object.
         """
-        twit_content = "{}, {} {} C {}".format(twitter_post.post_text, twitter_post.condition, twitter_post.temperature,
-                                               twitter_post.youtube_url)
+        if instruction is None:
+            logging.error('Instruction parameter missing')
+            return TwitterResponse(description='Instruction parameter missing')
+
+        if instruction == Instruction.RESOLVE_WEATHER_DATA:
+            twit_content = "{}, {} {} C {}".format(twitter_post.post_text, twitter_post.condition, twitter_post.temperature,
+                                                   twitter_post.youtube_url)
+        if instruction == Instruction.RESOLVE_ARTIST:
+            twit_content = "Requested: {} {}".format(twitter_post.post_text, twitter_post.youtube_url)
 
         if twitter_post.post_text is None or twitter_post.youtube_url is None:
             return TwitterResponse(description='Twitter post text or youtube_url not resolved!')

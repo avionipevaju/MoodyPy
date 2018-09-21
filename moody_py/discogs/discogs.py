@@ -31,6 +31,7 @@ class Discogs:
             artist = self.search_engine.search(artist_name, type='artist')[0]
             random_release = utils.get_random_from_collection(artist.releases)
             random_track = utils.get_random_from_collection(random_release.tracklist)
+            logging.info('Resolved track %s for artist %s', random_track, artist_name)
             return "{} {}".format(artist_name, random_track.title)
         except Exception as e:
             logging.error(e.message)
