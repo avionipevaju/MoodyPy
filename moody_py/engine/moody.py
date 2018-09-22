@@ -45,10 +45,10 @@ class Moody:
             logging.error('Instruction parameter missing')
             return TwitterResponse(description='Instruction parameter missing')
 
-        if instruction == Instruction.RESOLVE_WEATHER_DATA:
+        if instruction == Instruction.PROCESS_WEATHER_DATA:
             twit_content = "{}, {} {} C {}".format(twitter_post.post_text, twitter_post.condition, twitter_post.temperature,
                                                    twitter_post.youtube_url)
-        if instruction == Instruction.RESOLVE_ARTIST:
+        if instruction == Instruction.PROCESS_ARTIST:
             twit_content = "Requested: {} {}".format(twitter_post.post_text, twitter_post.youtube_url)
 
         if twitter_post.post_text is None or twitter_post.youtube_url is None:

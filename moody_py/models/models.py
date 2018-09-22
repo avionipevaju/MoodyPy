@@ -65,8 +65,8 @@ class Instruction:
     Value object representing instruction that the engine should perform
     """
 
-    RESOLVE_WEATHER_DATA = "RWD"
-    RESOLVE_ARTIST = "RA"
+    PROCESS_WEATHER_DATA = "PROCESS_WEATHER_DATA"
+    PROCESS_ARTIST = "PROCESS_ARTIST"
 
     def __init__(self):
         pass
@@ -109,3 +109,17 @@ class TwitterResponse:
     def __str__(self):
         return self._to_string.format(self.status, self.description, self.post_id, self.timestamp, self.content)
 
+
+class ExecutionRequest:
+    """
+    Data transfer object representing a received request
+    """
+
+    def __init__(self, json_request):
+        """
+        ExecutionRequest assembler
+        :param json_request: JSON represented execution request
+        """
+        self.instruction = json_request['instruction'] if not None else Instruction.PROCESS_WEATHER_DATA
+        self.content = json_request['content']
+        self.requestedBy = json_request['requestedBy']

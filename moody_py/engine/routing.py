@@ -1,8 +1,8 @@
-from flask import Flask
+from flask import Flask, request
 
 import moody_py.utils as utils
 from moody_py.engine.engine import Engine
-from moody_py.models.models import Instruction
+from moody_py.models.models import Instruction, ExecutionRequest
 
 routing = Flask(__name__)
 engine = Engine()
@@ -11,18 +11,15 @@ engine = Engine()
 @routing.route('/moody/api/execute')
 def execute():
     """
-    Rest endpoint for executing moody_py task with RESOLVE_WEATHER_DATA instruction
+    Rest endpoint for executing moody_py task for resolving and posting Twitter content by weather data
     :return: Response: Json represented TwitterResponse object
     """
-    result = engine.execute_task(instruction=Instruction.RESOLVE_WEATHER_DATA)
+    result = engine.execute_task(ExecutionRequest())
     return utils.create_json_response(result)
 
 
-@routing.route('/moody/api/post/')
+@routing.route('/moody/api/post', methods=['POST'])
 def post():
-    """
-
-    :return:
-    """
-    result = engine.execute_task(instruction=Instruction.RESOLVE_ARTIST, content='Mogwai')
+    execution_request = ExecutionRequest(request.get_json())
+    result = engine.execute_task(execution_request)
     return utils.create_json_response(result)

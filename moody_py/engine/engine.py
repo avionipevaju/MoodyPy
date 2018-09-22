@@ -26,26 +26,28 @@ class Engine:
         self.discogs = Discogs()
         self.redis_engine = Redis()
 
-    def execute_task(self, instruction=Instruction.RESOLVE_WEATHER_DATA, content=None):
+    def execute_task(self, execution_request):
         """
         Creates a twitter post and posts it to moody_py twitter account
+        :param execution_request: Request received on routing endpoints
         :return: TwitterResponse: models.TwitterResponse. Status of the posted twit.
         """
-        if instruction is Instruction.RESOLVE_WEATHER_DATA:
-            return self.post_to_twitter_based_on_weather_data(instruction)
+        instruction = execution_request.instruction
+        if instruction == Instruction.PROCESS_WEATHER_DATA:
+            return self.post_to_twitter_based_on_weather_data(execution_request)
 
-        if instruction is Instruction.RESOLVE_ARTIST:
-            return self.post_to_twitter_based_on_artist(instruction, content)
+        if instruction == Instruction.PROCESS_ARTIST:
+            return self.post_to_twitter_based_on_artist(execution_request)
 
-        return TwitterResponse(twitter_status=-3, description="Instruction invalid!")
+        return TwitterResponse(description="Instruction invalid!")
 
-    def post_to_twitter_based_on_weather_data(self, instruction):
+    def post_to_twitter_based_on_weather_data(self, execution_request):
         """
         Posts content to Twitter based on the current weather.
         First gets the current weather and resolves a genre based on it.
         Then finds a random track of a given genre following by a YouTube search for the corresponding video.
         Afterwards finds a corresponding twit text based on the weather data
-        :param instruction: models.Instruction what kind of tweet to post
+        :param execution_request: Request received on routing endpoints
         :return: twitter_response: models.TwitterResponse object containing relevant tweet response data
         """
         weather_data = self.weather.current_weather()
@@ -60,17 +62,17 @@ class Engine:
         post_text = utils.get_random_from_collection(post_text_list)
         logging.info('Resolved post_text: %s for weather data: %s', post_text, weather_data)
         twitter_post = TwitterPost(post_text, youtube_url, weather_data.condition, weather_data.temperature)
-        twitter_response = self.moody.tweet(twitter_post, instruction)
+        twitter_response = self.moody.tweet(twitter_post, execution_request.instruction)
         return twitter_response
 
-    def post_to_twitter_based_on_artist(self, instruction, artist):
+    def post_to_twitter_based_on_artist(self, execution_request):
         """
         Posts content to Twitter based on the given artist.
         Resolves a random track for a given artist and posts it to Twitter
-        :param instruction: models.Instruction what kind of tweet to post
-        :param artist: name of the artist performing the song
+        :param execution_request: Request received on routing endpoints
         :return: twitter_response: models.TwitterResponse object containing relevant tweet response data
         """
+        artist = execution_request.content
         if artist is None:
             logging.error('Artist parameter is empty!')
             return TwitterResponse(description='Artist parameter is empty!')
@@ -78,5 +80,5 @@ class Engine:
         track_by_artist = self.discogs.get_random_track_by_artist(artist)
         youtube_url = self.youtube_search_engine.search_video(track_by_artist)
         twitter_post = TwitterPost(track_by_artist, youtube_url, None, None)
-        twitter_response = self.moody.tweet(twitter_post, instruction)
+        twitter_response = self.moody.tweet(twitter_post, execution_request.instruction)
         return twitter_response
