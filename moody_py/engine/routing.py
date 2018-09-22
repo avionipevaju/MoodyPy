@@ -2,7 +2,7 @@ from flask import Flask, request
 
 import moody_py.utils as utils
 from moody_py.engine.engine import Engine
-from moody_py.models.models import Instruction, ExecutionRequest
+from moody_py.models.models import ExecutionRequest
 
 routing = Flask(__name__)
 engine = Engine()
