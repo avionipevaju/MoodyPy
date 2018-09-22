@@ -115,11 +115,14 @@ class ExecutionRequest:
     Data transfer object representing a received request
     """
 
-    def __init__(self, json_request):
+    def __init__(self, json_request=None):
         """
         ExecutionRequest assembler
         :param json_request: JSON represented execution request
         """
-        self.instruction = json_request['instruction'] if not None else Instruction.PROCESS_WEATHER_DATA
-        self.content = json_request['content']
-        self.requestedBy = json_request['requestedBy']
+        if json_request is None:
+            self.instruction = Instruction.PROCESS_WEATHER_DATA
+        else:
+            self.instruction = json_request['instruction']
+            self.content = json_request['content']
+            self.requestedBy = json_request['requestedBy']

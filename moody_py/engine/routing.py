@@ -14,7 +14,7 @@ def execute():
     Rest endpoint for executing moody_py task for resolving and posting Twitter content by weather data
     :return: Response: Json represented TwitterResponse object
     """
-    result = engine.execute_task(ExecutionRequest())
+    result = engine.execute_task(ExecutionRequest(None))
     return utils.create_json_response(result)
 
 
