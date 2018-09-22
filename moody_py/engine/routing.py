@@ -11,15 +11,19 @@ engine = Engine()
 @routing.route('/moody/api/execute')
 def execute():
     """
-    Rest endpoint for executing moody_py task for resolving and posting Twitter content by weather data
+    Rest endpoint for executing moody_py basic functionality, resolving and posting Twitter content by weather data
     :return: Response: Json represented TwitterResponse object
     """
-    result = engine.execute_task(ExecutionRequest(None))
+    result = engine.execute_task(ExecutionRequest())
     return utils.create_json_response(result)
 
 
 @routing.route('/moody/api/post', methods=['POST'])
 def post():
+    """
+    Rest endpoint for executing custom moody_py functionality.
+    :return: Response: Json represented TwitterResponse object
+    """
     execution_request = ExecutionRequest(request.get_json())
     result = engine.execute_task(execution_request)
     return utils.create_json_response(result)
