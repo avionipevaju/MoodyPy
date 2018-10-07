@@ -67,6 +67,7 @@ class Instruction:
 
     PROCESS_WEATHER_DATA = "PROCESS_WEATHER_DATA"
     PROCESS_ARTIST = "PROCESS_ARTIST"
+    PROCESS_INSTAGRAM_POST = "PROCESS_INSTAGRAM_POST"
 
     def __init__(self):
         pass

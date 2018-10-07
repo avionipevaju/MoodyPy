@@ -13,7 +13,7 @@ from moody_py.models.models import Instruction
 class Engine:
     """
     Moody_py core functionality. Genre resolving according to current weather. Artist and song resolving according to
-    a specific genre. YouTube search. Content posting to moody_py twitter account. Task scheduling.
+    a specific genre. YouTube search. Content posting to moody_py twitter account.
     """
 
     LOCATION = 'Belgrade'
@@ -38,6 +38,9 @@ class Engine:
 
         if instruction == Instruction.PROCESS_ARTIST:
             return self.post_to_twitter_based_on_artist(execution_request)
+
+        if instruction == Instruction.PROCESS_INSTAGRAM_POST:
+            return self.post_to_twitter_based_on_instagram(execution_request)
 
         return TwitterResponse(description="Instruction invalid!")
 
@@ -80,5 +83,15 @@ class Engine:
         track_by_artist = self.discogs.get_random_track_by_artist(artist)
         youtube_url = self.youtube_search_engine.search_video(track_by_artist)
         twitter_post = TwitterPost(track_by_artist, youtube_url, None, None)
+        twitter_response = self.moody.tweet(twitter_post, execution_request.instruction)
+        return twitter_response
+
+    def post_to_twitter_based_on_instagram(self, execution_request):
+        """
+        Forwards an Instagram post to Twitter.
+        :param execution_request: Request received on routing endpoints
+        :return: twitter_response: models.TwitterResponse object containing relevant tweet response data
+        """
+        twitter_post = TwitterPost(execution_request.content, execution_request.instruction, None, None)
         twitter_response = self.moody.tweet(twitter_post, execution_request.instruction)
         return twitter_response
