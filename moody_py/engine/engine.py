@@ -95,3 +95,18 @@ class Engine:
         twitter_post = TwitterPost(execution_request.content, execution_request.instruction, None, None)
         twitter_response = self.moody.tweet(twitter_post, execution_request.instruction)
         return twitter_response
+
+    def validate_request(self, execution_request, authorization_header):
+        """
+        Validates a request by matching the authorization header
+        :param execution_request: Request received on routing endpoints
+        :param authorization_header: Header containing the authorization details
+        :return: Boolean True if validation is successful False otherwise
+        """
+        received_passkey = authorization_header.split(" ")[1]
+        user_passkey = self.redis_engine.get_string('user:' + execution_request.requested_by)
+        if received_passkey == user_passkey:
+            return True
+        else:
+            logging.warn('Error validating request for user %s', execution_request.requested_by)
+            return False

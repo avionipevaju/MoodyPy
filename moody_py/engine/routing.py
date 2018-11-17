@@ -25,5 +25,9 @@ def post():
     :return: Response: Json represented TwitterResponse object
     """
     execution_request = ExecutionRequest(request.get_json())
-    result = engine.execute_task(execution_request)
-    return utils.create_json_response(result)
+    is_valid = engine.validate_request(execution_request, request.headers['Authorization'])
+    if is_valid:
+        result = engine.execute_task(execution_request)
+        return utils.create_json_response(result)
+    else:
+        return utils.create_json_error_response(-1, "Unauthorized!", 401)

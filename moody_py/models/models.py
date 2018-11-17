@@ -126,4 +126,4 @@ class ExecutionRequest:
         else:
             self.instruction = json_request['instruction']
             self.content = json_request['content']
-            self.requestedBy = json_request['requestedBy']
+            self.requested_by = json_request['requestedBy']
