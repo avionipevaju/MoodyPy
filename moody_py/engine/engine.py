@@ -81,7 +81,7 @@ class Engine:
             return TwitterResponse(description='Artist parameter is empty!')
 
         track_by_artist = self.discogs.get_random_track_by_artist(artist)
-        youtube_url = self.youtube_search_engine.search_video(track_by_artist)
+        youtube_url = self.youtube_search_engine.search_video(artist + ' ' + track_by_artist)
         twitter_post = TwitterPost(track_by_artist, youtube_url, None, None)
         twitter_response = self.moody.tweet(twitter_post, execution_request.instruction)
         return twitter_response
