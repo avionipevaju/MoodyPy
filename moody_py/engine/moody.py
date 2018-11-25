@@ -52,7 +52,7 @@ class Moody:
             twit_content = "Requested: {} {}".format(twitter_post.post_text, twitter_post.youtube_url)
 
         if instruction == Instruction.PROCESS_INSTAGRAM_POST:
-            return TwitterResponse(description="Feature not yet available!")
+            twit_content = twitter_post.post_text
 
         if twitter_post.post_text is None or twitter_post.youtube_url is None:
             return TwitterResponse(description='Twitter post text or youtube_url not resolved!')
