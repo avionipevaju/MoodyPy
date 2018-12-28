@@ -1,0 +1,7 @@
+version: "3.5"
+services:
+    moody:
+      container_name: moody
+      image: moody:0.0.1
+      ports:
+         - "4000:8887"

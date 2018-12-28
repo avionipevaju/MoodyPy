@@ -1,7 +1,7 @@
 future
 requests
 requests_oauthlib
-twitter
+python-twitter
 weather-api
 bs4
 discogs_client

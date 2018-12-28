@@ -1,7 +1,7 @@
 import logging
 import json
 
-logging.basicConfig(format='%(asctime)s %(message)s', filename='logs.log', datefmt='%d.%m.%Y %H:%M:%S', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%d.%m.%Y %H:%M:%S', level=logging.INFO)
 
 try:
     with open('credentials.json') as json_file:
